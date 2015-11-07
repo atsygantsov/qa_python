@@ -19,6 +19,7 @@ class add_group(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def login(self, wd, username, password):
+        self.go_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -31,6 +32,7 @@ class add_group(unittest.TestCase):
         wd.find_element_by_link_text("groups").click()
 
     def add_new_group(self, wd, g_name, g_header, g_footer):
+        self.go_to_groups_page(wd)
         wd.find_element_by_name("new").click()
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
@@ -43,8 +45,10 @@ class add_group(unittest.TestCase):
         wd.find_element_by_name("group_footer").clear()
         wd.find_element_by_name("group_footer").send_keys(g_footer)
         wd.find_element_by_name("submit").click()
+        self.go_to_groups_page(wd)
 
     def logout(self, wd):
+        self.click_on_home(wd)
         wd.find_element_by_link_text("Logout").click()
 
     def click_on_home(self, wd):
@@ -52,23 +56,15 @@ class add_group(unittest.TestCase):
 
     def test_add_group(self):
         wd = self.wd
-        self.go_home_page(wd)
         self.login(wd, username = "admin",password = "secret")
-        self.go_to_groups_page(wd)
         self.add_new_group(wd, g_name="test", g_header="test", g_footer="foot")
-        self.go_to_groups_page(wd)
-        self.click_on_home(wd)
         self.logout(wd)
 
 
     def test_add_empty_group(self):
         wd = self.wd
-        self.go_home_page(wd)
         self.login(wd, username = "admin",password = "secret")
-        self.go_to_groups_page(wd)
         self.add_new_group(wd, g_name="", g_header="", g_footer="")
-        self.go_to_groups_page(wd)
-        self.click_on_home(wd)
         self.logout(wd)
 
     
